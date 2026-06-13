@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact | Diversity in Beauty Hair Salon</title>
+  <meta name="description" content="Contact Diversity in Beauty Hair Salon in Kitchener, ON. Call or text 226-600-9503, send a message, or visit 195 Franklin Street N." />
+  <meta name="theme-color" content="#4a2f4d" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" data-header>
+    <div class="container nav-bar">
+      <a class="brand" href="index.html">
+        <img src="assets/logo.svg" alt="" class="brand-mark" width="40" height="40" />
+        <span class="brand-text">Diversity in Beauty</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu" data-nav-toggle>
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="primary-nav" id="primary-nav" data-nav>
+        <a href="index.html">Home</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="contact.html" class="active">Contact</a>
+        <a href="contact.html" class="btn btn-sm nav-cta">Book Now</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-head">
+      <div class="container">
+        <p class="eyebrow">Get in touch</p>
+        <h1>Contact &amp; Booking</h1>
+        <p class="lead">By appointment only. The fastest way to book is to call or text. You can also send a message below.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container contact-grid">
+        <!-- Quick contact -->
+        <aside class="contact-info">
+          <h2>Quick contact</h2>
+          <ul class="contact-list">
+            <li>
+              <span class="contact-label">Call or text</span>
+              <a href="tel:+12266009503">226-600-9503</a>
+            </li>
+            <li>
+              <span class="contact-label">WhatsApp</span>
+              <a href="https://wa.me/12266009503" target="_blank" rel="noopener">Message on WhatsApp</a>
+            </li>
+            <li>
+              <span class="contact-label">Email</span>
+              <a href="mailto:diversityinbeautyhairsalon@gmail.com">diversityinbeautyhairsalon@gmail.com</a>
+            </li>
+            <li>
+              <span class="contact-label">Visit</span>
+              <a href="https://www.google.com/maps/search/?api=1&amp;query=195+Franklin+Street+N+Kitchener+ON+N2A+1Y4" target="_blank" rel="noopener">195 Franklin Street N<br />Kitchener, ON N2A 1Y4</a>
+            </li>
+            <li>
+              <span class="contact-label">Hours</span>
+              <span>By appointment &mdash; afternoons, evenings &amp; Saturdays available</span>
+            </li>
+          </ul>
+        </aside>
+
+        <!-- Contact form -->
+        <div class="contact-form-wrap">
+          <h2>Send a message</h2>
+          <form id="contact-form" class="contact-form" action="https://api.web3forms.com/submit" method="POST" novalidate>
+            <!-- Replace with your Web3Forms access key (free at https://web3forms.com). See README. -->
+            <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
+            <input type="hidden" name="subject" value="New booking request from website" />
+            <input type="hidden" name="from_name" value="Diversity in Beauty website" />
+            <!-- Honeypot anti-spam field -->
+            <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" />
+
+            <div class="field">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" required autocomplete="name" />
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required autocomplete="email" />
+              </div>
+              <div class="field">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone" autocomplete="tel" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="service">Service</label>
+              <select id="service" name="service">
+                <option>Men's haircut</option>
+                <option>Women's haircut</option>
+                <option>Kids / family</option>
+                <option>Other / not sure</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="5" placeholder="Let us know what you're looking for and a few times that work for you." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-block">Send message</button>
+            <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Map -->
+    <section class="map-section" aria-label="Map to the salon">
+      <iframe
+        title="Map showing 195 Franklin Street N, Kitchener, ON"
+        src="https://maps.google.com/maps?q=195%20Franklin%20Street%20N%20Kitchener%20ON%20N2A%201Y4&t=&z=15&ie=UTF8&iwloc=&output=embed"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <span class="brand-text">Diversity in Beauty Hair Salon</span>
+        <p class="muted">195 Franklin Street N<br />Kitchener, ON N2A 1Y4</p>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <p><a href="tel:+12266009503">226-600-9503</a> (call / text)</p>
+        <p><a href="mailto:diversityinbeautyhairsalon@gmail.com">diversityinbeautyhairsalon@gmail.com</a></p>
+      </div>
+      <div>
+        <h4>Follow</h4>
+        <p><a href="https://www.facebook.com/diversitybeautyhairsalon/" target="_blank" rel="noopener">Facebook</a></p>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p class="muted">&copy; <span data-year>2026</span> Diversity in Beauty Hair Salon</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
