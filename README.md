@@ -12,18 +12,23 @@ proof of concept for migrating off Wix.
 ## 📁 What's in here
 
 ```
-index.html        Home page (hero, about, services, call-to-action)
-portfolio.html    Photo gallery
-contact.html      Contact form + quick contact + Google map
-css/styles.css    All styling
-js/main.js        Mobile menu + contact form handling
-assets/           Logo, favicon, social image (SVG placeholders)
-404.html          Friendly "page not found" page
-robots.txt        SEO: lets search engines crawl
-sitemap.xml       SEO: lists the pages
-netlify.toml      Config if you deploy to Netlify
+index.html            Home page          → served at  /
+portfolio/index.html  Photo gallery      → served at  /portfolio
+contact/index.html    Contact form + map → served at  /contact
+css/styles.css        All styling
+js/main.js            Mobile menu + contact form handling
+assets/               Logo, favicon, social image (SVG placeholders)
+404.html              Friendly "page not found" page
+robots.txt            SEO: lets search engines crawl
+sitemap.xml           SEO: lists the pages
+netlify.toml          Config if you deploy to Netlify
 .github/workflows/deploy.yml   Auto-deploys to GitHub Pages on push to main
 ```
+
+> **URLs match the old Wix site on purpose.** Using `portfolio/index.html`
+> (instead of `portfolio.html`) makes the page live at `/portfolio` — the exact
+> path Google already has indexed — so the migration keeps your existing SEO with
+> no redirects needed. Same for `/contact`.
 
 ---
 
