@@ -33,6 +33,11 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
 body {
   margin: 0;
+  /* Column layout so the home page's photo can stretch to fill whatever height
+     is left over between the title band and the footer. */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   font-family: var(--font);
   color: var(--text);
   background: var(--bg);
@@ -74,7 +79,6 @@ p  { margin: 0 0 1rem; }
 .btn:hover { background: var(--ink-soft); text-decoration: none; }
 .btn-outline { background: transparent; color: var(--ink); }
 .btn-outline:hover { background: var(--ink); color: #fff; }
-.btn-block { width: 100%; }
 
 /* ---------- Header / nav ---------- */
 .site-header { background: var(--ink); color: var(--on-dark); }
@@ -108,17 +112,15 @@ p  { margin: 0 0 1rem; }
 .hero-band p:last-child { margin-bottom: 0; }
 .hero-band a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
 
-/* Wide salon photo directly under the hero band */
-.hero-photo { width: 100%; }
-.hero-photo img { width: 100%; height: clamp(240px, 42vw, 520px); object-fit: cover; }
-/* Placeholder used until a real photo is added */
-.hero-photo .placeholder {
-  width: 100%; height: clamp(240px, 42vw, 520px);
-  display: grid; place-items: center;
-  background: linear-gradient(135deg, #4a403a, #2e2723);
-  color: rgba(255,255,255,.8);
-}
-.hero-photo .placeholder span { border: 1px dashed rgba(255,255,255,.45); padding: .5rem 1rem; border-radius: var(--radius); font-size: .9rem; }
+/* ---------- Home stage: salon photo + the service panels on top of it ----------
+   On phones this is an ordinary photo with the panels stacked underneath.
+   The desktop treatment is in the min-width: 900px block further down. */
+/* Grows to fill the window on every page, so a short page (404) still puts
+   the footer at the bottom rather than mid-screen. */
+main { flex: 1 0 auto; }
+.home-main { display: flex; flex-direction: column; }
+.home-stage { position: relative; width: 100%; }
+.home-stage-photo { width: 100%; height: clamp(260px, 44vw, 420px); object-fit: cover; }
 
 /* ---------- Sections ---------- */
 .section { padding: clamp(2.5rem, 7vw, 5rem) 0; }
@@ -157,11 +159,72 @@ p  { margin: 0 0 1rem; }
 .service p:last-child { margin-bottom: 0; }
 .service .price { font-weight: 400; }
 
+/* Desktop only: the service panels lift up over the bottom of the salon photo,
+   so the page opens as one composition instead of three stacked bands.
+
+   The section is pulled up far enough that the "Services" heading also lands on
+   the photo, which is why the photo gets a scrim across its lower half — it
+   guarantees the white heading has contrast no matter what is in the shot.
+   Below 900px there is no overlap and the heading goes back to normal. */
+@media (min-width: 900px) {
+  /* The stage takes every pixel the header, title band and footer don't use,
+     so the photo reaches the footer however tall the window is. min-height
+     covers short windows, where the panels would otherwise be squeezed. */
+  .home-stage {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 620px;
+  }
+
+  /* Taken out of flow so it fills the stage rather than sizing it. */
+  .home-stage-photo {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+  }
+
+  .home-stage::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 65%;
+    background: linear-gradient(to bottom, rgba(46, 39, 35, 0), rgba(46, 39, 35, .8));
+    pointer-events: none;
+  }
+
+  .services-overlap {
+    position: relative;   /* lifts the panels above the photo */
+    z-index: 2;
+  }
+  /* The scrim does most of the work; the shadow covers the case where the
+     heading lands on a bright patch of the photo, like the mirror. */
+  .services-overlap .section-title { color: #fff; text-shadow: 0 2px 14px rgba(20, 16, 14, .65); }
+}
+
 /* ---------- Gallery (portfolio) ----------
-   A single centred column of photos, matching the current site. */
-.gallery { display: grid; gap: clamp(1rem, 3vw, 1.75rem); max-width: 860px; margin: 0 auto clamp(1.5rem, 4vw, 2.5rem); }
-.gallery-item { margin: 0; }
-.gallery-item img { width: 100%; border-radius: var(--radius); box-shadow: var(--shadow); cursor: zoom-in; }
+   The photos are a real mix of shapes — tall portraits next to wide
+   before/after panels — so this uses CSS multi-column rather than a grid.
+   Every photo keeps its own aspect ratio instead of being cropped to fit a
+   uniform tile, and the columns pack together with no ragged gaps.
+   One column on phones, two on tablets, three on desktop. */
+.gallery {
+  --gallery-gap: clamp(1rem, 3vw, 1.75rem);
+  columns: 1;
+  column-gap: var(--gallery-gap);
+  max-width: 1160px;
+  margin: 0 auto clamp(1.5rem, 4vw, 2.5rem);
+}
+@media (min-width: 640px)  { .gallery { columns: 2; } }
+@media (min-width: 1000px) { .gallery { columns: 3; } }
+
+/* break-inside stops a photo being split across two columns. */
+.gallery-item { margin: 0 0 var(--gallery-gap); break-inside: avoid; }
+.gallery-item img {
+  display: block; width: 100%; height: auto;
+  border-radius: var(--radius); box-shadow: var(--shadow); cursor: zoom-in;
+}
 .gallery-item img:hover { opacity: .93; }
 /* Placeholder tiles, shown until real photos are added */
 .gallery-item .placeholder {
@@ -188,31 +251,27 @@ p  { margin: 0 0 1rem; }
 
 /* ---------- Contact page ---------- */
 .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: clamp(1.5rem, 4vw, 3rem); align-items: start; }
-.contact-info, .contact-form-wrap { background: var(--panel-soft); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(1.25rem, 3vw, 1.75rem); }
-.contact-info h2, .contact-form-wrap h2 { font-size: clamp(1.3rem, 3vw, 1.6rem); }
+.contact-info { background: var(--panel-soft); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(1.25rem, 3vw, 1.75rem); }
+.contact-info h2 { font-size: clamp(1.3rem, 3vw, 1.6rem); }
+/* The phone number is the only way to book, so it carries the panel. */
+.contact-lead { margin: 0; font-size: clamp(1.6rem, 5vw, 2.1rem); line-height: 1.2; }
+.contact-lead a { text-decoration: none; }
+.contact-lead a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.contact-sub { margin: .4rem 0 1.25rem; color: var(--muted); }
 .contact-list { list-style: none; padding: 0; margin: 0; }
 .contact-list li { padding: .8rem 0; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: .15rem; }
 .contact-list li:last-child { border-bottom: 0; padding-bottom: 0; }
 .contact-list a { text-decoration: underline; text-underline-offset: 3px; }
 .contact-label { text-transform: uppercase; letter-spacing: .14em; font-size: .72rem; font-weight: 600; color: var(--muted); }
-
-.field { margin-bottom: 1rem; }
-.field label { display: block; margin-bottom: .3rem; font-size: .9rem; color: var(--muted); }
-.field input, .field select, .field textarea {
-  width: 100%; padding: .7rem .85rem; font: inherit; color: var(--text);
-  background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
-}
-.field textarea { resize: vertical; }
-.field-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr)); gap: 0 1rem; }
-.form-status { margin: .9rem 0 0; font-size: .92rem; min-height: 1.2em; }
-.form-status.success { color: #1f6b3c; }
-.form-status.error   { color: #9a2b2b; }
+/* Sits in the second grid column, opposite the contact details. */
+.contact-photo { display: block; width: 100%; height: 100%; max-height: 560px;
+                 object-fit: cover; border-radius: var(--radius); }
 
 .map-section { margin-top: clamp(2rem, 5vw, 3rem); }
 .map-section iframe { width: 100%; height: clamp(260px, 40vw, 420px); border: 0; display: block; }
 
 /* ---------- Footer ---------- */
-.site-footer { background: var(--ink); color: var(--on-dark); padding: clamp(2rem, 5vw, 3rem) 0 1.5rem; margin-top: 0; }
+.site-footer { flex-shrink: 0; background: var(--ink); color: var(--on-dark); padding: clamp(2rem, 5vw, 3rem) 0 1.5rem; margin-top: 0; }
 .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: clamp(1.25rem, 4vw, 2.5rem); }
 .site-footer h4 { color: #fff; font-size: .8rem; text-transform: uppercase; letter-spacing: .14em; font-weight: 500; margin-bottom: .8rem; }
 .site-footer p { color: var(--on-dark-mut); margin: 0 0 .4rem; }
