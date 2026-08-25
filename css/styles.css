@@ -74,7 +74,6 @@ p  { margin: 0 0 1rem; }
 .btn:hover { background: var(--ink-soft); text-decoration: none; }
 .btn-outline { background: transparent; color: var(--ink); }
 .btn-outline:hover { background: var(--ink); color: #fff; }
-.btn-block { width: 100%; }
 
 /* ---------- Header / nav ---------- */
 .site-header { background: var(--ink); color: var(--on-dark); }
@@ -205,28 +204,21 @@ p  { margin: 0 0 1rem; }
 
 /* ---------- Contact page ---------- */
 .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: clamp(1.5rem, 4vw, 3rem); align-items: start; }
-.contact-info, .contact-form-wrap { background: var(--panel-soft); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(1.25rem, 3vw, 1.75rem); }
-.contact-info h2, .contact-form-wrap h2 { font-size: clamp(1.3rem, 3vw, 1.6rem); }
+.contact-info { background: var(--panel-soft); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(1.25rem, 3vw, 1.75rem); }
+.contact-info h2 { font-size: clamp(1.3rem, 3vw, 1.6rem); }
+/* The phone number is the only way to book, so it carries the panel. */
+.contact-lead { margin: 0; font-size: clamp(1.6rem, 5vw, 2.1rem); line-height: 1.2; }
+.contact-lead a { text-decoration: none; }
+.contact-lead a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.contact-sub { margin: .4rem 0 1.25rem; color: var(--muted); }
 .contact-list { list-style: none; padding: 0; margin: 0; }
 .contact-list li { padding: .8rem 0; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: .15rem; }
 .contact-list li:last-child { border-bottom: 0; padding-bottom: 0; }
 .contact-list a { text-decoration: underline; text-underline-offset: 3px; }
 .contact-label { text-transform: uppercase; letter-spacing: .14em; font-size: .72rem; font-weight: 600; color: var(--muted); }
-/* Capped so the tall salon photo doesn't tower over the form beside it. */
-.contact-photo { display: block; width: 100%; max-height: 380px; object-fit: cover;
-                 margin-top: 1.25rem; border-radius: var(--radius); }
-
-.field { margin-bottom: 1rem; }
-.field label { display: block; margin-bottom: .3rem; font-size: .9rem; color: var(--muted); }
-.field input, .field select, .field textarea {
-  width: 100%; padding: .7rem .85rem; font: inherit; color: var(--text);
-  background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
-}
-.field textarea { resize: vertical; }
-.field-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr)); gap: 0 1rem; }
-.form-status { margin: .9rem 0 0; font-size: .92rem; min-height: 1.2em; }
-.form-status.success { color: #1f6b3c; }
-.form-status.error   { color: #9a2b2b; }
+/* Sits in the second grid column, opposite the contact details. */
+.contact-photo { display: block; width: 100%; height: 100%; max-height: 560px;
+                 object-fit: cover; border-radius: var(--radius); }
 
 .map-section { margin-top: clamp(2rem, 5vw, 3rem); }
 .map-section iframe { width: 100%; height: clamp(260px, 40vw, 420px); border: 0; display: block; }

@@ -42,20 +42,19 @@
     </section>
 
     <div class="hero-photo">
-      <img src="../assets/haircut-stock.jpg" width="2000" height="1333"
-           alt="A stylist sectioning and cutting a client's long hair" fetchpriority="high" decoding="async" />
+      <img src="../assets/salon-interior.jpg" width="2000" height="1377"
+           alt="Inside Diversity in Beauty Hair Salon: a styling station with a large gold-framed mirror, a black salon chair and trailing plants"
+           fetchpriority="high" decoding="async" />
     </div>
 
     <section class="section">
       <div class="container contact-grid">
-        <!-- Quick contact -->
+        <!-- Booking is by phone — there is no online form to fall out of date. -->
         <aside class="contact-info">
-          <h2>Quick contact</h2>
+          <h2>Book an appointment</h2>
+          <p class="contact-lead"><a href="tel:+12266009503">226-600-9503</a></p>
+          <p class="contact-sub">Call or text to book. By appointment only.</p>
           <ul class="contact-list">
-            <li>
-              <span class="contact-label">Call or text</span>
-              <a href="tel:+12266009503">226-600-9503</a>
-            </li>
             <li>
               <span class="contact-label">WhatsApp</span>
               <a href="https://wa.me/12266009503" target="_blank" rel="noopener">Message on WhatsApp</a>
@@ -73,51 +72,10 @@
               <span>By appointment &mdash; afternoons, evenings &amp; Saturdays may be available</span>
             </li>
           </ul>
-          <img class="contact-photo" src="../assets/salon-station.jpg" width="675" height="1200"
-               alt="The styling station at Diversity in Beauty Hair Salon" loading="lazy" decoding="async" />
         </aside>
 
-        <!-- Contact form -->
-        <div class="contact-form-wrap">
-          <h2>Send a message</h2>
-          <form id="contact-form" class="contact-form" action="https://api.web3forms.com/submit" method="POST" novalidate>
-            <!-- Replace with your Web3Forms access key (free at https://web3forms.com). See README. -->
-            <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
-            <input type="hidden" name="subject" value="New booking request from website" />
-            <input type="hidden" name="from_name" value="Diversity in Beauty website" />
-            <!-- Honeypot anti-spam field -->
-            <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
-
-            <div class="field">
-              <label for="name">Name</label>
-              <input type="text" id="name" name="name" required autocomplete="name" />
-            </div>
-            <div class="field-row">
-              <div class="field">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required autocomplete="email" />
-              </div>
-              <div class="field">
-                <label for="phone">Phone</label>
-                <input type="tel" id="phone" name="phone" autocomplete="tel" />
-              </div>
-            </div>
-            <div class="field">
-              <label for="service">Service</label>
-              <select id="service" name="service">
-                <option>Men's haircut</option>
-                <option>Women's haircut</option>
-                <option>Other / not sure</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="message">Message</label>
-              <textarea id="message" name="message" rows="5" placeholder="Let us know what you're looking for and a few times that work for you." required></textarea>
-            </div>
-            <button type="submit" class="btn btn-block">Send message</button>
-            <p class="form-status" data-form-status role="status" aria-live="polite"></p>
-          </form>
-        </div>
+        <img class="contact-photo" src="../assets/salon-station.jpg" width="675" height="1200"
+             alt="The styling station at Diversity in Beauty Hair Salon" loading="lazy" decoding="async" />
       </div>
 
       <!-- Map -->
