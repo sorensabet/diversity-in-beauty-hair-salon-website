@@ -95,4 +95,66 @@
         });
     });
   }
+
+  /* ---- Gallery lightbox ----
+     Any <img> inside [data-gallery] becomes clickable and opens full size.
+     Placeholder tiles (no <img>) are ignored, so this does nothing until
+     real photos are added. */
+  var gallery = document.querySelector("[data-gallery]");
+  var lightbox = document.querySelector("[data-lightbox]");
+
+  if (gallery && lightbox) {
+    var lbImg = lightbox.querySelector("[data-lightbox-img]");
+    var photos = [].slice.call(gallery.querySelectorAll("img"));
+    var index = 0;
+    var lastFocused = null;
+
+    var show = function (i) {
+      if (!photos.length) return;
+      index = (i + photos.length) % photos.length;
+      lbImg.src = photos[index].currentSrc || photos[index].src;
+      lbImg.alt = photos[index].alt || "";
+    };
+
+    var open = function (i) {
+      lastFocused = document.activeElement;
+      show(i);
+      lightbox.hidden = false;
+      document.body.style.overflow = "hidden";
+      lightbox.querySelector("[data-lightbox-close]").focus();
+    };
+
+    var close = function () {
+      lightbox.hidden = true;
+      lbImg.removeAttribute("src");
+      document.body.style.overflow = "";
+      if (lastFocused && lastFocused.focus) lastFocused.focus();
+    };
+
+    // Only wire things up if there is at least one real photo.
+    if (photos.length) {
+      photos.forEach(function (img, i) {
+        img.addEventListener("click", function () { open(i); });
+      });
+
+      lightbox.querySelector("[data-lightbox-close]").addEventListener("click", close);
+      lightbox.querySelector("[data-lightbox-prev]").addEventListener("click", function () { show(index - 1); });
+      lightbox.querySelector("[data-lightbox-next]").addEventListener("click", function () { show(index + 1); });
+
+      // Click the backdrop (but not the image or buttons) to close
+      lightbox.addEventListener("click", function (e) {
+        if (e.target === lightbox) close();
+      });
+
+      document.addEventListener("keydown", function (e) {
+        if (lightbox.hidden) return;
+        if (e.key === "Escape") close();
+        else if (e.key === "ArrowLeft") show(index - 1);
+        else if (e.key === "ArrowRight") show(index + 1);
+      });
+    } else {
+      // No photos yet — hide the prev/next chrome so it can never appear empty.
+      lightbox.hidden = true;
+    }
+  }
 })();
