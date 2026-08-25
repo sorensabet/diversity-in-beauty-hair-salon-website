@@ -107,9 +107,12 @@ p  { margin: 0 0 1rem; }
 .hero-band p:last-child { margin-bottom: 0; }
 .hero-band a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
 
-/* Wide salon photo directly under the hero band */
-.hero-photo { width: 100%; }
-.hero-photo img { width: 100%; height: clamp(240px, 42vw, 520px); object-fit: cover; }
+/* Wide salon photo directly under the hero band.
+   The cap matters on wide monitors: the photo is 2000x1377, so at a 3400px
+   viewport `cover` scales it up 1.7x and a 520px band showed barely a fifth of
+   it. A taller cap keeps more of the room in frame. */
+.hero-photo { width: 100%; position: relative; }
+.hero-photo img { display: block; width: 100%; height: clamp(260px, 44vw, 780px); object-fit: cover; }
 /* Placeholder used until a real photo is added */
 .hero-photo .placeholder {
   width: 100%; height: clamp(240px, 42vw, 520px);
@@ -155,6 +158,34 @@ p  { margin: 0 0 1rem; }
 .service p { margin: 0 0 .9rem; }
 .service p:last-child { margin-bottom: 0; }
 .service .price { font-weight: 400; }
+
+/* Desktop only: the service panels lift up over the bottom of the salon photo,
+   so the page opens as one composition instead of three stacked bands.
+
+   The section is pulled up far enough that the "Services" heading also lands on
+   the photo, which is why the photo gets a scrim across its lower half — it
+   guarantees the white heading has contrast no matter what is in the shot.
+   Below 900px there is no overlap and the heading goes back to normal. */
+@media (min-width: 900px) {
+  .hero-photo::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 65%;
+    background: linear-gradient(to bottom, rgba(46, 39, 35, 0), rgba(46, 39, 35, .8));
+    pointer-events: none;
+  }
+
+  .services-overlap {
+    position: relative;   /* lifts the panels above the photo */
+    z-index: 2;
+    margin-top: clamp(-260px, -14vw, -140px);
+    padding-top: 0;
+  }
+  /* The scrim does most of the work; the shadow covers the case where the
+     heading lands on a bright patch of the photo, like the mirror. */
+  .services-overlap .section-title { color: #fff; text-shadow: 0 2px 14px rgba(20, 16, 14, .65); }
+}
 
 /* ---------- Gallery (portfolio) ----------
    The photos are a real mix of shapes — tall portraits next to wide
