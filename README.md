@@ -4,6 +4,7 @@ A lightweight, **free-to-host** rebuild of the salon's Wix website, built as a
 proof of concept for migrating off Wix.
 
 - **Pages:** Home, Portfolio, Contact (with a working contact form + call/text/WhatsApp/email links and a map)
+- **Responsive:** one fluid layout that reflows for phone, tablet, and desktop — verified at 390px, 820px, and 1440px
 - **Tech:** Plain HTML, CSS, and a little vanilla JavaScript. **No build step, no frameworks, no monthly fees.**
 - **Why this approach:** A static site like this can be hosted for **free** on GitHub Pages, Cloudflare Pages, or Netlify, and is fully portable between them. You only pay for the domain.
 
@@ -16,8 +17,10 @@ index.html            Home page          → served at  /
 portfolio/index.html  Photo gallery      → served at  /portfolio
 contact/index.html    Contact form + map → served at  /contact
 css/styles.css        All styling
-js/main.js            Mobile menu + contact form handling
+js/main.js            Mobile menu, photo lightbox, contact form handling
 assets/               Logo, favicon, social image (SVG placeholders)
+assets/portfolio/     Portfolio photos go here
+tools/optimize-photos.sh   Shrinks big phone photos for the web
 404.html              Friendly "page not found" page
 robots.txt            SEO: lets search engines crawl
 sitemap.xml           SEO: lists the pages
@@ -77,32 +80,73 @@ between them anytime since it's just static files.
 
 ## ✏️ Customizing the site
 
-### Replace the placeholder photos
-The site currently uses tasteful colored placeholders so it looks complete. To add
-your mother's real photos:
+### Adding real photos
 
-1. Drop image files into `assets/` (e.g. `assets/salon.jpg`, `assets/style-1.jpg`).
-   Use `.jpg` for photos; keep them under ~300 KB each (resize before uploading).
-2. **Home – salon photo:** in `index.html`, find the `<div class="media-card" ...>`
-   block and replace it with:
-   ```html
-   <img src="assets/salon.jpg" alt="Inside Diversity in Beauty Hair Salon" class="media-card" />
-   ```
-3. **Portfolio:** in `portfolio.html`, replace each
-   `<figure class="gallery-item"><span>Style N</span></figure>` with:
-   ```html
-   <figure class="gallery-item"><img src="assets/style-1.jpg" alt="Finished haircut" /></figure>
-   ```
-   (You can add or remove as many as you like.)
+Photos straight from a phone are usually 4–8 MB, which makes the site crawl on
+mobile data. Shrink them first:
 
-> Tip: you can download your existing photos from the current Wix site by
-> right-clicking each image and choosing "Save image as…".
+```bash
+./tools/optimize-photos.sh ~/Desktop/salon-photos/*.jpg
+```
 
-### Update text, services, or prices
-Open `index.html` / `portfolio.html` / `contact.html` in any text editor — the
-content is plain, readable HTML with comments. Change the words and save.
+That writes web-sized copies (max 1600px, ~85% quality — typically under 300 KB)
+into `assets/portfolio/`, leaving your originals untouched. It needs ImageMagick
+(`brew install imagemagick` on macOS, `sudo apt install imagemagick` on Linux).
+Any online image resizer works too — just save the results into
+`assets/portfolio/`.
 
----
+**Portfolio gallery** — in `portfolio/index.html`, replace a placeholder
+`<figure class="gallery-item">…</figure>` with:
+
+```html
+<figure class="gallery-item"><img src="../assets/portfolio/cut-1.jpg" alt="Before and after: textured crop with a skin fade" loading="lazy" /></figure>
+```
+
+Add or delete as many as you like. Clicking a photo opens it full size (arrow
+keys and Esc work) — nothing extra to set up. Placeholders and real photos can
+sit side by side while you're partway through.
+
+> **Write real `alt` text.** It's what screen readers announce and what Google
+> reads to understand the image. "Before and after: textured crop" beats "photo".
+
+**Home page salon photo** — in `index.html`, replace the
+`<div class="placeholder">…</div>` inside `<div class="hero-photo">` with:
+
+```html
+<img src="assets/salon.jpg" alt="Inside Diversity in Beauty Hair Salon" />
+```
+
+**Service photos** — in `index.html`, replace each
+`<div class="service-media placeholder">Photo</div>` with:
+
+```html
+<img class="service-media" src="assets/mens-haircut.jpg" alt="Men's haircut" />
+```
+
+> **Getting the photos off Wix:** open the current site, right-click each image
+> and choose "Save image as…". Wix also has a bulk export under
+> **Site & Mobile Apps → Media Manager → select all → Download**.
+
+### Updating text, services, or prices
+
+Open `index.html`, `portfolio/index.html`, or `contact/index.html` in any text
+editor — the content is plain, readable HTML with comments marking the parts
+meant to be edited. Change the words and save.
+
+If you add a whole new page, add its URL to `sitemap.xml` too so search engines
+find it.
+
+### How the responsive layout works
+
+There's one layout, not three. Grids use `auto-fit`/`minmax`, so they fit as
+many columns as the screen allows and reflow on their own. Two media queries
+handle the cases where content genuinely needs to change shape:
+
+- **≤ 560px** — each service panel puts its photo above the text instead of beside it.
+- **≤ 720px** — the nav collapses behind a hamburger menu.
+
+If you change the layout, check it at roughly 390px (phone), 820px (tablet), and
+1440px (desktop). Browser dev tools have a device-toolbar toggle for this.
 
 ## 📨 Turning on the contact form
 
@@ -112,7 +156,7 @@ Until it's configured, the form gracefully tells visitors to call/text/email ins
 
 1. Go to https://web3forms.com, enter `diversityinbeautyhairsalon@gmail.com`, and
    they'll email you a free **Access Key**.
-2. In `contact.html`, replace `YOUR_WEB3FORMS_ACCESS_KEY` with that key:
+2. In `contact/index.html`, replace `YOUR_WEB3FORMS_ACCESS_KEY` with that key:
    ```html
    <input type="hidden" name="access_key" value="paste-your-key-here" />
    ```
@@ -135,8 +179,8 @@ Wix hosting.**
 2. In **Wix → Domains → Manage DNS** (or wherever you manage the domain), update the
    records:
    - **GitHub Pages:** add the four `A` records GitHub lists, plus a `CNAME` for `www`
-     → `<username>.github.io`. Then add a file named `CNAME` to this repo containing
-     `www.diversityinbeautyhairsalon.com`.
+     → `<username>.github.io`. The repo already contains a `CNAME` file with
+     `www.diversityinbeautyhairsalon.com`, so there's nothing to add there.
    - **Cloudflare Pages / Netlify:** follow their "add custom domain" wizard — it tells
      you the exact records.
 3. DNS changes take a few minutes to a few hours. HTTPS is issued automatically.
