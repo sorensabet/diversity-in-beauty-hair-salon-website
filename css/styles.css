@@ -33,6 +33,11 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
 body {
   margin: 0;
+  /* Column layout so the home page's photo can stretch to fill whatever height
+     is left over between the title band and the footer. */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   font-family: var(--font);
   color: var(--text);
   background: var(--bg);
@@ -107,20 +112,15 @@ p  { margin: 0 0 1rem; }
 .hero-band p:last-child { margin-bottom: 0; }
 .hero-band a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
 
-/* Wide salon photo directly under the hero band.
-   The cap matters on wide monitors: the photo is 2000x1377, so at a 3400px
-   viewport `cover` scales it up 1.7x and a 520px band showed barely a fifth of
-   it. A taller cap keeps more of the room in frame. */
-.hero-photo { width: 100%; position: relative; }
-.hero-photo img { display: block; width: 100%; height: clamp(260px, 44vw, 780px); object-fit: cover; }
-/* Placeholder used until a real photo is added */
-.hero-photo .placeholder {
-  width: 100%; height: clamp(240px, 42vw, 520px);
-  display: grid; place-items: center;
-  background: linear-gradient(135deg, #4a403a, #2e2723);
-  color: rgba(255,255,255,.8);
-}
-.hero-photo .placeholder span { border: 1px dashed rgba(255,255,255,.45); padding: .5rem 1rem; border-radius: var(--radius); font-size: .9rem; }
+/* ---------- Home stage: salon photo + the service panels on top of it ----------
+   On phones this is an ordinary photo with the panels stacked underneath.
+   The desktop treatment is in the min-width: 900px block further down. */
+/* Grows to fill the window on every page, so a short page (404) still puts
+   the footer at the bottom rather than mid-screen. */
+main { flex: 1 0 auto; }
+.home-main { display: flex; flex-direction: column; }
+.home-stage { position: relative; width: 100%; }
+.home-stage-photo { width: 100%; height: clamp(260px, 44vw, 420px); object-fit: cover; }
 
 /* ---------- Sections ---------- */
 .section { padding: clamp(2.5rem, 7vw, 5rem) 0; }
@@ -167,7 +167,25 @@ p  { margin: 0 0 1rem; }
    guarantees the white heading has contrast no matter what is in the shot.
    Below 900px there is no overlap and the heading goes back to normal. */
 @media (min-width: 900px) {
-  .hero-photo::after {
+  /* The stage takes every pixel the header, title band and footer don't use,
+     so the photo reaches the footer however tall the window is. min-height
+     covers short windows, where the panels would otherwise be squeezed. */
+  .home-stage {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 620px;
+  }
+
+  /* Taken out of flow so it fills the stage rather than sizing it. */
+  .home-stage-photo {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+  }
+
+  .home-stage::after {
     content: "";
     position: absolute;
     inset: auto 0 0 0;
@@ -179,8 +197,6 @@ p  { margin: 0 0 1rem; }
   .services-overlap {
     position: relative;   /* lifts the panels above the photo */
     z-index: 2;
-    margin-top: clamp(-260px, -14vw, -140px);
-    padding-top: 0;
   }
   /* The scrim does most of the work; the shadow covers the case where the
      heading lands on a bright patch of the photo, like the mirror. */
@@ -255,7 +271,7 @@ p  { margin: 0 0 1rem; }
 .map-section iframe { width: 100%; height: clamp(260px, 40vw, 420px); border: 0; display: block; }
 
 /* ---------- Footer ---------- */
-.site-footer { background: var(--ink); color: var(--on-dark); padding: clamp(2rem, 5vw, 3rem) 0 1.5rem; margin-top: 0; }
+.site-footer { flex-shrink: 0; background: var(--ink); color: var(--on-dark); padding: clamp(2rem, 5vw, 3rem) 0 1.5rem; margin-top: 0; }
 .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: clamp(1.25rem, 4vw, 2.5rem); }
 .site-footer h4 { color: #fff; font-size: .8rem; text-transform: uppercase; letter-spacing: .14em; font-weight: 500; margin-bottom: .8rem; }
 .site-footer p { color: var(--on-dark-mut); margin: 0 0 .4rem; }

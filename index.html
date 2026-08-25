@@ -59,7 +59,7 @@
     </div>
   </header>
 
-  <main id="main">
+  <main id="main" class="home-main">
     <!-- Title band -->
     <section class="hero-band">
       <div class="container">
@@ -69,49 +69,49 @@
       </div>
     </section>
 
-    <!-- Wide salon photo. Swap the src for a different file in assets/ to change it. -->
-    <div class="hero-photo">
-      <img src="assets/salon-interior.jpg" width="2000" height="1377"
+    <!-- The salon photo fills whatever space is left between the title band
+         and the footer; the service panels sit on top of it. Swap the src for
+         a different file in assets/ to change the photo. -->
+    <div class="home-stage">
+      <img class="home-stage-photo" src="assets/salon-interior.jpg" width="2000" height="1377"
            alt="Inside Diversity in Beauty Hair Salon: a styling station with a large gold-framed mirror, a black salon chair and trailing plants"
            fetchpriority="high" decoding="async" />
-    </div>
 
-    <!-- Services -->
-    <section class="section services-overlap">
-      <div class="container">
-        <h2 class="section-title">Services</h2>
+      <!-- Services -->
+      <section class="section services-overlap">
+        <div class="container">
+          <h2 class="section-title">Services</h2>
 
-        <div class="services">
+          <div class="services">
 
-          <article class="service">
-            <img class="service-media" src="assets/mens-haircut.jpg" width="720" height="667"
-                 alt="A man's hair being combed into a side part with a tapered fade" loading="lazy" decoding="async" />
-            <div>
-              <h3>Men's Haircuts</h3>
-              <p class="price">Starting at $25 including tax</p>
-              <p>Call / text / WhatsApp<br /><a href="tel:+12266009503">226-600-9503</a></p>
-              <p>By appointment only</p>
-            </div>
-          </article>
+            <article class="service">
+              <img class="service-media" src="assets/mens-haircut.jpg" width="720" height="667"
+                   alt="A man's hair being combed into a side part with a tapered fade" loading="lazy" decoding="async" />
+              <div>
+                <h3>Men's Haircuts</h3>
+                <p class="price">Starting at $25 including tax</p>
+                <p>Call / text / WhatsApp<br /><a href="tel:+12266009503">226-600-9503</a></p>
+                <p>By appointment only</p>
+              </div>
+            </article>
 
-          <article class="service">
-            <img class="service-media" src="assets/haircut-stock.jpg" width="2000" height="1333"
-                 alt="A stylist sectioning and cutting a woman's long hair" loading="lazy" decoding="async" />
-            <div>
-              <h3>Women's Haircuts</h3>
-              <p class="price">Starting at $30 including tax</p>
-              <p>Call / text / WhatsApp<br /><a href="tel:+12266009503">226-600-9503</a></p>
-              <p>By appointment only</p>
-            </div>
-          </article>
+            <article class="service">
+              <img class="service-media" src="assets/haircut-stock.jpg" width="2000" height="1333"
+                   alt="A stylist sectioning and cutting a woman's long hair" loading="lazy" decoding="async" />
+              <div>
+                <h3>Women's Haircuts</h3>
+                <p class="price">Starting at $30 including tax</p>
+                <p>Call / text / WhatsApp<br /><a href="tel:+12266009503">226-600-9503</a></p>
+                <p>By appointment only</p>
+              </div>
+            </article>
+
+          </div>
 
         </div>
+      </section>
+    </div>
 
-        <p class="muted center" style="margin-top: 2rem;">
-          See recent work in the <a href="portfolio/" style="text-decoration:underline;text-underline-offset:3px;">portfolio</a>.
-        </p>
-      </div>
-    </section>
   </main>
 
   <!-- Footer -->
