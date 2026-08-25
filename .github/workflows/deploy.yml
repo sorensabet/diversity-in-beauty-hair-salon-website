@@ -1,9 +1,14 @@
 name: Deploy to GitHub Pages
 
-# Publishes the static site whenever changes land on the main branch.
+# Publishes the static site whenever changes land on the repository's
+# default branch.
+#
+# Note: `on.push.branches` can't reference the default branch by name, so this
+# listens to every branch push and the job below filters down to the default
+# branch. That keeps deploys working whatever the branch is called (main,
+# master, or anything else) instead of silently never running.
 on:
   push:
-    branches: ["main"]
   workflow_dispatch:
 
 permissions:
@@ -18,6 +23,8 @@ concurrency:
 
 jobs:
   deploy:
+    # Only the default branch gets published; pushes to feature branches are ignored.
+    if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

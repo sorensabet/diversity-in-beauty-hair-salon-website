@@ -54,12 +54,19 @@ No tools needed beyond a browser. Either:
 
 ### Option A — GitHub Pages (recommended, already wired up)
 
-This repo includes a workflow that **auto-publishes on every push to `main`**.
+This repo includes a workflow that **auto-publishes on every push to the
+repository's default branch** (whatever it's named — the workflow reads it from
+GitHub rather than hardcoding `main`).
 
-1. Merge this branch into `main`.
-2. In GitHub: **Settings → Pages → Build and deployment → Source: "GitHub Actions"**.
-3. Push to `main`. The site goes live at `https://<username>.github.io/<repo>/`.
+1. In GitHub: **Settings → Pages → Build and deployment → Source: "GitHub Actions"**.
+2. Merge this branch into the default branch.
+3. The site goes live at `https://<username>.github.io/<repo>/`.
 4. To use the real domain, see **"Pointing the domain"** below.
+
+> **Heads up:** this repo's default branch is currently a working branch, not
+> `main`. That's fine — deploys follow whatever the default is. If you'd rather
+> tidy it up, rename it under **Settings → Branches**; nothing here depends on
+> the name.
 
 ### Option B — Cloudflare Pages
 
