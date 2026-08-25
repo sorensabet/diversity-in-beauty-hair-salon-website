@@ -3,7 +3,7 @@
 A lightweight, **free-to-host** rebuild of the salon's Wix website, built as a
 proof of concept for migrating off Wix.
 
-- **Pages:** Home, Portfolio, Contact (with a working contact form + call/text/WhatsApp/email links and a map)
+- **Pages:** Home, Portfolio, Contact (call/text/WhatsApp/email links and a map)
 - **Responsive:** one fluid layout that reflows for phone, tablet, and desktop — verified at 390px, 820px, and 1440px
 - **Tech:** Plain HTML, CSS, and a little vanilla JavaScript. **No build step, no frameworks, no monthly fees.**
 - **Why this approach:** A static site like this can be hosted for **free** on GitHub Pages, Cloudflare Pages, or Netlify, and is fully portable between them. You only pay for the domain.
@@ -15,11 +15,13 @@ proof of concept for migrating off Wix.
 ```
 index.html            Home page          → served at  /
 portfolio/index.html  Photo gallery      → served at  /portfolio
-contact/index.html    Contact form + map → served at  /contact
+contact/index.html    Contact details + map → served at  /contact
 css/styles.css        All styling
-js/main.js            Mobile menu, photo lightbox, contact form handling
-assets/               Logo, favicon, social image (SVG placeholders)
-assets/portfolio/     Portfolio photos go here
+js/main.js            Mobile menu, photo lightbox
+assets/               Logo, favicon, and the photos used outside the gallery
+assets/originals/     Untouched full-resolution photos. Nothing links to these —
+                      they are the backup copy. Keep them.
+assets/portfolio/     Web-sized gallery photos (generated from originals/)
 tools/optimize-photos.sh   Shrinks big phone photos for the web
 404.html              Friendly "page not found" page
 robots.txt            SEO: lets search engines crawl
@@ -40,7 +42,7 @@ netlify.toml          Config if you deploy to Netlify
 No tools needed beyond a browser. Either:
 
 - **Double-click `index.html`**, or
-- Run a tiny local server (better — the contact form and relative links behave correctly):
+- Run a tiny local server (better — relative links and the 404 page behave correctly):
 
   ```bash
   # Python 3 (already on most machines)
@@ -148,24 +150,19 @@ handle the cases where content genuinely needs to change shape:
 If you change the layout, check it at roughly 390px (phone), 820px (tablet), and
 1440px (desktop). Browser dev tools have a device-toolbar toggle for this.
 
-## 📨 Turning on the contact form
+## 📨 How people get in touch
 
-The form works without any server using **[Web3Forms](https://web3forms.com)** —
-free, no account beyond an email, submissions are sent straight to the salon's inbox.
-Until it's configured, the form gracefully tells visitors to call/text/email instead.
+Booking is **by phone** — the contact page leads with call/text on 226-600-9503,
+plus WhatsApp, email, the address, and a map.
 
-1. Go to https://web3forms.com, enter `diversityinbeautyhairsalon@gmail.com`, and
-   they'll email you a free **Access Key**.
-2. In `contact/index.html`, replace `YOUR_WEB3FORMS_ACCESS_KEY` with that key:
-   ```html
-   <input type="hidden" name="access_key" value="paste-your-key-here" />
-   ```
-3. Save, redeploy. Submissions now arrive by email. (Web3Forms' free tier covers
-   well beyond what a salon needs.)
+There is deliberately no online form. A form needs a third-party service behind it
+(Web3Forms, Formspree, Netlify Forms) to actually deliver mail from a static site,
+and a form that silently stops working is worse than no form at all. `tel:` and
+`mailto:` links have nothing to break and nothing to renew.
 
-**Alternatives** if you prefer: [Formspree](https://formspree.io) (similar setup) or,
-if hosting on Netlify, Netlify Forms. The call/text/WhatsApp/email links work no
-matter what, so the page is useful even with the form off.
+If you ever do want one, [Web3Forms](https://web3forms.com) is the least-effort
+option: free, no account beyond an email, and it drops into a plain `<form>` with
+a single hidden access-key field.
 
 ---
 
