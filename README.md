@@ -93,11 +93,16 @@ Photos straight from a phone are usually 4–8 MB, which makes the site crawl on
 mobile data. Shrink them first:
 
 ```bash
+# Gallery photos -> assets/portfolio/
 ./tools/optimize-photos.sh ~/Desktop/salon-photos/*.jpg
+
+# Home page salon + service photos -> assets/
+./tools/optimize-photos.sh -o assets ~/Desktop/salon.jpg
 ```
 
-That writes web-sized copies (max 1600px, ~85% quality — typically under 300 KB)
-into `assets/portfolio/`, leaving your originals untouched. It needs ImageMagick
+That writes web-sized copies (max 1600px, ~85% quality — typically under 300 KB),
+leaving your originals untouched. Filenames are lowercased and spaces become
+dashes, so `IMG 4021 Before After.jpg` lands as `img-4021-before-after.jpg`. It needs ImageMagick
 (`brew install imagemagick` on macOS, `sudo apt install imagemagick` on Linux).
 Any online image resizer works too — just save the results into
 `assets/portfolio/`.
