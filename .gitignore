@@ -7,3 +7,6 @@ Thumbs.db
 
 # Dependencies (none currently, but just in case)
 node_modules/
+
+# Licensed stock photo — kept locally, deliberately not in the public repo.
+assets/originals/shutterstock_380387029.jpg
