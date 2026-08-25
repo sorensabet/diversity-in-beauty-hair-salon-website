@@ -4,8 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Portfolio | Diversity in Beauty Hair Salon</title>
-  <meta name="description" content="A gallery of recent haircuts and styles from Diversity in Beauty Hair Salon in Kitchener, ON." />
-  <meta name="theme-color" content="#4a2f4d" />
+  <meta name="description" content="Before-and-after photos of recent haircuts from Diversity in Beauty Hair Salon in Kitchener, ON." />
+  <meta name="theme-color" content="#2e2723" />
+  <meta property="og:title" content="Portfolio | Diversity in Beauty Hair Salon" />
+  <meta property="og:description" content="Before-and-after photos of recent haircuts in Kitchener, ON." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.diversityinbeautyhairsalon.com/portfolio" />
   <link rel="canonical" href="https://www.diversityinbeautyhairsalon.com/portfolio" />
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="../css/styles.css" />
@@ -13,57 +17,80 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <header class="site-header" data-header>
+  <header class="site-header">
     <div class="container nav-bar">
-      <a class="brand" href="../">
-        <img src="../assets/logo.svg" alt="" class="brand-mark" width="40" height="40" />
-        <span class="brand-text">Diversity in Beauty</span>
-      </a>
       <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu" data-nav-toggle>
         <span></span><span></span><span></span>
       </button>
       <nav class="primary-nav" id="primary-nav" data-nav>
         <a href="../">Home</a>
-        <a href="../portfolio/" class="active">Portfolio</a>
+        <a href="../portfolio/" class="active" aria-current="page">Portfolio</a>
         <a href="../contact/">Contact</a>
-        <a href="../contact/" class="btn btn-sm nav-cta">Book Now</a>
       </nav>
+      <a class="nav-phone" href="tel:+12266009503">226-600-9503</a>
     </div>
   </header>
 
   <main id="main">
-    <section class="page-head">
+    <!-- Title band, same as the home page -->
+    <section class="hero-band">
       <div class="container">
-        <p class="eyebrow">Our Work</p>
-        <h1>Portfolio</h1>
-        <p class="lead">A look at recent cuts and styles. Replace these placeholders with real photos to showcase the salon's work.</p>
+        <h1>Diversity in Beauty Hair Salon</h1>
+        <p>Call or text <a href="tel:+12266009503">226-600-9503</a> to book an appointment</p>
+        <p>Afternoon, evening, and Saturday appointments may be available!</p>
       </div>
     </section>
 
     <section class="section">
       <div class="container">
-        <div class="gallery">
-          <figure class="gallery-item"><span>Style 1</span></figure>
-          <figure class="gallery-item"><span>Style 2</span></figure>
-          <figure class="gallery-item"><span>Style 3</span></figure>
-          <figure class="gallery-item"><span>Style 4</span></figure>
-          <figure class="gallery-item"><span>Style 5</span></figure>
-          <figure class="gallery-item"><span>Style 6</span></figure>
+
+        <!-- ==========================================================
+             PHOTO GALLERY
+             To add a photo:
+               1. Put the image file in  assets/portfolio/
+                  (run ./tools/optimize-photos.sh first so it loads fast)
+               2. Add one line here:
+
+                  <figure class="gallery-item"><img src="../assets/portfolio/cut-1.jpg" alt="Before and after: textured crop with a skin fade" loading="lazy" /></figure>
+
+               3. Delete one of the placeholder <figure> blocks below.
+
+             The alt text is what screen readers announce and what Google
+             reads, so describe the cut. Clicking a photo opens it full
+             size — no extra setup needed.
+             ========================================================== -->
+        <div class="gallery" data-gallery>
+          <figure class="gallery-item"><div class="placeholder"><span>Before / after photo 1</span></div></figure>
+          <figure class="gallery-item"><div class="placeholder"><span>Before / after photo 2</span></div></figure>
+          <figure class="gallery-item"><div class="placeholder"><span>Before / after photo 3</span></div></figure>
+          <figure class="gallery-item"><div class="placeholder"><span>Before / after photo 4</span></div></figure>
         </div>
-        <p class="muted center">Like what you see? <a href="../contact/">Book an appointment</a> or call <a href="tel:+12266009503">226-600-9503</a>.</p>
+
+        <p class="muted center">
+          Like what you see? <a href="../contact/" style="text-decoration:underline;text-underline-offset:3px;">Book an appointment</a>
+          or call <a href="tel:+12266009503" style="text-decoration:underline;text-underline-offset:3px;">226-600-9503</a>.
+        </p>
       </div>
     </section>
+
+    <!-- Full-size photo viewer (opens when a gallery photo is clicked) -->
+    <div class="lightbox" hidden data-lightbox role="dialog" aria-modal="true" aria-label="Photo viewer">
+      <button class="lightbox-close" type="button" aria-label="Close" data-lightbox-close>&times;</button>
+      <button class="lightbox-prev" type="button" aria-label="Previous photo" data-lightbox-prev>&#8249;</button>
+      <img alt="" data-lightbox-img />
+      <button class="lightbox-next" type="button" aria-label="Next photo" data-lightbox-next>&#8250;</button>
+    </div>
   </main>
 
   <footer class="site-footer">
     <div class="container footer-grid">
       <div>
-        <span class="brand-text">Diversity in Beauty Hair Salon</span>
-        <p class="muted">195 Franklin Street N<br />Kitchener, ON N2A 1Y4</p>
+        <span class="footer-brand">Diversity in Beauty Hair Salon</span>
+        <p>195 Franklin Street N<br />Kitchener, ON N2A 1Y4</p>
       </div>
       <div>
         <h4>Contact</h4>
-        <p><a href="tel:+12266009503">226-600-9503</a> (call / text)</p>
+        <p><a href="tel:+12266009503">226-600-9503</a></p>
         <p><a href="mailto:diversityinbeautyhairsalon@gmail.com">diversityinbeautyhairsalon@gmail.com</a></p>
       </div>
       <div>
@@ -72,7 +99,7 @@
       </div>
     </div>
     <div class="container footer-bottom">
-      <p class="muted">&copy; <span data-year>2026</span> Diversity in Beauty Hair Salon</p>
+      <p>&copy; <span data-year>2026</span> Diversity in Beauty Hair Salon</p>
     </div>
   </footer>
 
