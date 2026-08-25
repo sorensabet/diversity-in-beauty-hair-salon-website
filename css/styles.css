@@ -158,10 +158,27 @@ p  { margin: 0 0 1rem; }
 .service .price { font-weight: 400; }
 
 /* ---------- Gallery (portfolio) ----------
-   A single centred column of photos, matching the current site. */
-.gallery { display: grid; gap: clamp(1rem, 3vw, 1.75rem); max-width: 860px; margin: 0 auto clamp(1.5rem, 4vw, 2.5rem); }
-.gallery-item { margin: 0; }
-.gallery-item img { width: 100%; border-radius: var(--radius); box-shadow: var(--shadow); cursor: zoom-in; }
+   The photos are a real mix of shapes — tall portraits next to wide
+   before/after panels — so this uses CSS multi-column rather than a grid.
+   Every photo keeps its own aspect ratio instead of being cropped to fit a
+   uniform tile, and the columns pack together with no ragged gaps.
+   One column on phones, two on tablets, three on desktop. */
+.gallery {
+  --gallery-gap: clamp(1rem, 3vw, 1.75rem);
+  columns: 1;
+  column-gap: var(--gallery-gap);
+  max-width: 1160px;
+  margin: 0 auto clamp(1.5rem, 4vw, 2.5rem);
+}
+@media (min-width: 640px)  { .gallery { columns: 2; } }
+@media (min-width: 1000px) { .gallery { columns: 3; } }
+
+/* break-inside stops a photo being split across two columns. */
+.gallery-item { margin: 0 0 var(--gallery-gap); break-inside: avoid; }
+.gallery-item img {
+  display: block; width: 100%; height: auto;
+  border-radius: var(--radius); box-shadow: var(--shadow); cursor: zoom-in;
+}
 .gallery-item img:hover { opacity: .93; }
 /* Placeholder tiles, shown until real photos are added */
 .gallery-item .placeholder {
@@ -195,6 +212,9 @@ p  { margin: 0 0 1rem; }
 .contact-list li:last-child { border-bottom: 0; padding-bottom: 0; }
 .contact-list a { text-decoration: underline; text-underline-offset: 3px; }
 .contact-label { text-transform: uppercase; letter-spacing: .14em; font-size: .72rem; font-weight: 600; color: var(--muted); }
+/* Capped so the tall salon photo doesn't tower over the form beside it. */
+.contact-photo { display: block; width: 100%; max-height: 380px; object-fit: cover;
+                 margin-top: 1.25rem; border-radius: var(--radius); }
 
 .field { margin-bottom: 1rem; }
 .field label { display: block; margin-bottom: .3rem; font-size: .9rem; color: var(--muted); }
