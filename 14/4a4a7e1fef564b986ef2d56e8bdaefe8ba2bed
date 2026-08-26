@@ -1,0 +1,19 @@
+CNAME
+  s_6837d2a4d7515c::t_4f08cedf4300ab 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "144a4a7e1fef564b986ef2d56e8bdaefe8ba2bed",
+  "prompts": {},
+  "sessions": {
+    "s_6837d2a4d7515c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6acdfe31-1c89-4647-9f2e-76bd4ede9c7d",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Soren Sabet <soren.sabet.sarvestany@tradera.com>"
+    }
+  }
+}
