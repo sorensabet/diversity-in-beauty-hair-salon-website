@@ -1,0 +1,19 @@
+README.md
+  s_6837d2a4d7515c::t_337dfa2e95f06d 29,54,56,58-62,64-66,68-69,71-75,166-195
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "c9e10ed5ed234e3b62868b439bedc0593045f57b",
+  "prompts": {},
+  "sessions": {
+    "s_6837d2a4d7515c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6acdfe31-1c89-4647-9f2e-76bd4ede9c7d",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Soren Sabet <soren.sabet.sarvestany@tradera.com>"
+    }
+  }
+}
