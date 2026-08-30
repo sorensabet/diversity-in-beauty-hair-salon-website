@@ -26,8 +26,7 @@ tools/optimize-photos.sh   Shrinks big phone photos for the web
 404.html              Friendly "page not found" page
 robots.txt            SEO: lets search engines crawl
 sitemap.xml           SEO: lists the pages
-netlify.toml          Config if you deploy to Netlify
-.github/workflows/deploy.yml   Auto-deploys to GitHub Pages on push to main
+netlify.toml          Netlify config: publish dir, 404 handling
 ```
 
 > **URLs match the old Wix site on purpose.** Using `portfolio/index.html`
@@ -52,31 +51,29 @@ No tools needed beyond a browser. Either:
 
 ---
 
-## 🌐 Deploying for free (pick ONE)
+## 🌐 How this site is hosted
 
-### Option A — GitHub Pages (recommended, already wired up)
+The site is **live on Netlify's free tier**, deployed straight from this repo.
 
-This repo includes a workflow that **auto-publishes on every push to `main`**.
+| Layer | Provider | Cost |
+|---|---|---|
+| Hosting | Netlify (`relaxed-puffpuff-9d0b81.netlify.app`) | $0 |
+| DNS | Cloudflare | $0 |
+| Registrar | Porkbun | ~US$11/yr |
 
-1. Merge this branch into `main`.
-2. In GitHub: **Settings → Pages → Build and deployment → Source: "GitHub Actions"**.
-3. Push to `main`. The site goes live at `https://<username>.github.io/<repo>/`.
-4. To use the real domain, see **"Pointing the domain"** below.
+**Deploys are automatic.** Push to `main` and Netlify rebuilds — there is no build
+step, so it just uploads the files. `netlify.toml` sets `publish = "."` and maps
+unmatched paths to `404.html`.
 
-### Option B — Cloudflare Pages
+HTTPS is a Let's Encrypt certificate issued and renewed by Netlify, covering both
+the apex and `www`.
 
-1. Create a free Cloudflare account → **Pages → Connect to Git** → pick this repo.
-2. Build settings: **Framework preset = None**, **Build command = (blank)**, **Output directory = `/`**.
-3. Deploy. Add the custom domain in the Pages project's **Custom domains** tab.
+> **Why not GitHub Pages?** It was the original host, but its certificate
+> provisioning silently stalled for days with every prerequisite correct — no CAA
+> record blocking it, DNS correct, port 80 answering. There was no lever to pull
+> from our side. Netlify issued a certificate within minutes. The site is plain
+> static files, so it stays portable if Netlify ever disappoints too.
 
-### Option C — Netlify
-
-1. Free Netlify account → **Add new site → Import from Git** → pick this repo.
-2. `netlify.toml` already sets publish directory to `.` with no build command.
-3. Add the domain under **Domain settings**.
-
-All three cost **$0** for a site this size, include free HTTPS, and you can switch
-between them anytime since it's just static files.
 
 ---
 
@@ -166,25 +163,36 @@ a single hidden access-key field.
 
 ---
 
-## 🔗 Pointing the domain (`diversityinbeautyhairsalon.com`)
+## 🔗 The domain (`diversityinbeautyhairsalon.com`)
 
-You currently buy the domain through Wix. You can keep the domain there and just
-point it at the new free host — **you don't have to transfer the domain to move off
-Wix hosting.**
+Fully off Wix. Three independent layers, each swappable without touching the others:
 
-1. Deploy to your chosen host (above) and note the DNS records / target it gives you.
-2. In **Wix → Domains → Manage DNS** (or wherever you manage the domain), update the
-   records:
-   - **GitHub Pages:** add the four `A` records GitHub lists, plus a `CNAME` for `www`
-     → `<username>.github.io`. The repo already contains a `CNAME` file with
-     `www.diversityinbeautyhairsalon.com`, so there's nothing to add there.
-   - **Cloudflare Pages / Netlify:** follow their "add custom domain" wizard — it tells
-     you the exact records.
-3. DNS changes take a few minutes to a few hours. HTTPS is issued automatically.
+**Registrar — Porkbun.** Renews ~US$11/yr (Wix charged CA$48). Wix refused to allow
+nameserver changes on domains it registers, which is what forced the move: it made
+every DNS provider unreachable.
 
-Once the new site is live and verified, you can cancel the Wix subscription. (Later,
-if you'd rather not pay Wix for the domain either, you can transfer it to a cheaper
-registrar like Cloudflare or Namecheap — but that's optional and separate from this.)
+**DNS — Cloudflare.** Two records, both **DNS only** (grey cloud — Netlify already
+provides the CDN and certificate, so proxying adds a second cache for no gain):
+
+| Type | Name | Content |
+|---|---|---|
+| A | `@` | `75.2.60.5` (Netlify apex load balancer) |
+| CNAME | `www` | `relaxed-puffpuff-9d0b81.netlify.app` |
+
+There are deliberately **no MX or TXT records** — salon email is Gmail-based, not
+domain-based. Nothing here affects mail.
+
+**Canonical host is `www`.** Every `<link rel="canonical">`, `og:url`, and
+`sitemap.xml` entry points at `www`, and Netlify's primary domain is set to match,
+so the apex 301s to `www`. Keep these in agreement or search ranking suffers.
+
+### If you ever move hosts again
+
+1. Deploy the repo to the new host; get its DNS target.
+2. Update those two records in Cloudflare.
+3. Update the primary/custom domain in the new host so it issues a certificate.
+
+DNS propagates in minutes. Nothing in the HTML is host-specific.
 
 ---
 
